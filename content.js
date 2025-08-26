@@ -1,7 +1,4 @@
-// content.js
-console.log("Content script injected and listening (v1.2).");
-
-// Add a listener for messages from the background script.
+// Listener for messages from the background script.
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log("Message received from background script:", message);
 
@@ -11,7 +8,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     parseHtmlAndCreateWindow(message.word, message.htmlText);
   }
 
-  // IMPORTANT: Send a response back to the background script to confirm receipt.
+  // Send a response back to the background script to confirm receipt.
   sendResponse({ status: "Message received by content script." });
   return true; // Keeps the message channel open for the asynchronous response.
 });
@@ -115,4 +112,5 @@ function createPronunciationWindow(data) {
 
   document.body.appendChild(container);
   console.log("Pronunciation window added to the page.");
+
 }
