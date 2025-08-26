@@ -1,8 +1,6 @@
-// background.js
-console.log("Background script loaded (v1.4).");
 let creating; // A flag to prevent multiple offscreen documents
 
-// 1. Create the context menu item
+// Create the context menu item
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "get-pronunciation",
@@ -11,24 +9,24 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-// 2. Listen for the click
+// Listen for the click
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   const selectedText = info.selectionText.trim();
   if (!selectedText || selectedText.split(' ').length > 5) return;
 
-  // ROUTE 1: For standard web pages
+  // For standard web pages
   if (tab && tab.url && tab.url.startsWith('http')) {
     console.log("Running on a standard webpage.");
     fetchAndSendMessageToContentScript(selectedText, tab.id);
   } 
-  // ROUTE 2: For the PDF viewer or other special pages
+  // For the PDF viewer or other special pages
   else {
     console.log("Running on a special page (like PDF viewer). Using offscreen document and notification.");
     fetchAndParseViaOffscreen(selectedText);
   }
 });
 
-// 3. Logic for standard webpages (sends message to content.js)
+// Logic for standard webpages (sends message to content.js)
 async function fetchAndSendMessageToContentScript(word, tabId) {
   const url = `https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(word)}`;
   try {
@@ -96,3 +94,4 @@ async function setupOffscreenDocument(path) {
     creating = null;
   }
 }
+
