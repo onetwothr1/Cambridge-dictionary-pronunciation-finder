@@ -1,6 +1,3 @@
-// offscreen.js
-console.log("Offscreen document loaded.");
-
 // Listen for messages from the background script
 chrome.runtime.onMessage.addListener(handleMessages);
 
@@ -50,3 +47,4 @@ async function parseCambridgePage(url) {
     throw e; // Re-throw the error to be caught in the message handler
   }
 }
+
